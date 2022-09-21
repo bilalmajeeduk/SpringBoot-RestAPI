@@ -5,6 +5,8 @@ import com.example.sprintrestapi.entities.Course;
 import com.example.sprintrestapi.services.CourseServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -43,7 +45,15 @@ public class ApiRequest {
         return  this.courseServices.updateCourse(course);
     }
 
-
-
+    //delete the course
+    @DeleteMapping("/api/course/{courseId}")
+    public ResponseEntity<HttpStatus> deleteCourse(@PathVariable String courseId){
+        try{
+            this.courseServices.deleteCourse(Long.parseLong(courseId));
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+        return  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
